@@ -12,8 +12,7 @@ Create new file ```.env``` is project root directory and fill all required vars 
 
 ```bash
 PORT - port to run application
-DB_USERNAME - database username to connect(AtlasDB)
-DB_PASSWORD - database password to connect
+DB_URL - database url to connect
 ```
 
 ### Running the app
