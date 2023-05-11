@@ -8,7 +8,7 @@ $ npm install
 
 ### Before run the app
 
-Create new file ```.env``` is project root directory and fill all required vars to run the app.
+Create new file ```.env``` in project root directory and fill all required vars to run the app.
 
 ```bash
 PORT - port to run application
