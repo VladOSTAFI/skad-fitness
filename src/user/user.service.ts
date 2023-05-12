@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto';
 import { UserData } from './types';
 import { User } from './schemas/user.schema';
+import { createHash } from 'crypto';
 
 @Injectable()
 export class UserService {
@@ -18,9 +19,12 @@ export class UserService {
   }
 
   async createUser({ username, password }: CreateUserDto): Promise<string> {
-    // todo: hash user password
+        // todo: hash user password
+    password = createHash('sha256').update(username).digest('hex')
+
     const user = await this.userModel.create({ username, password });
 
+    return user.toString();
     return user._id.toString();
   }
 }
