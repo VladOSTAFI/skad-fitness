@@ -24,7 +24,6 @@ export class UserService {
 
     const user = await this.userModel.create({ username, password });
 
-    return user.toString();
     return user._id.toString();
   }
 }
