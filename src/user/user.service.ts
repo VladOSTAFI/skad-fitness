@@ -9,7 +9,7 @@ import { createHash } from 'crypto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(@InjectModel(User.name, 'user') private userModel: Model<User>) {}
 
   async getUserData(): Promise<UserData> {
     // todo: get user data from db
