@@ -20,9 +20,9 @@ export class UserService {
 
   async createUser({ username, password }: CreateUserDto): Promise<string> {
         // todo: hash user password
-    password = createHash('sha256').update(username).digest('hex')
+    const hashPassword = createHash('sha256').update(password).digest('hex')
 
-    const user = await this.userModel.create({ username, password });
+    const user = await this.userModel.create({ username, password: hashPassword });
 
     return user._id.toString();
   }
