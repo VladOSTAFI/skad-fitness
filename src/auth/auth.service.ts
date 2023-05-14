@@ -36,11 +36,32 @@ export class AuthService {
 
   async refreshToken(refreshToken: string): Promise<TokensResponse> {
     // todo: validate refresh token and generate new tokens
-    console.log(refreshToken);
+      const verifyToken = await this.jwtService.verify(refreshToken)
+
+      const username = verifyToken.username;
+      const userId = verifyToken.userId;
+      
+    const newAccessToken = await this.jwtService.signAsync({
+      username: username,
+      userId: userId
+      }, {
+      secret: 'Super access secret',
+      expiresIn: '15m'
+      }
+    );
+
+    const newRefreshToker = await this.jwtService.signAsync({
+      username: username,
+      userId: userId
+    }, {
+      secret: 'Super refresh secret',
+      expiresIn: '7d'
+    });
+
 
     return {
-      accessToken: 'dummy_access_token',
-      refreshToken: 'dummy_refresh_token',
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToker,
     };
   }
 }
