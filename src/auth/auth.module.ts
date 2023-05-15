@@ -17,6 +17,7 @@ import { TIME } from 'src/config';
       signOptions: { expiresIn: TIME }
     }),
   ],     
+
   providers: [AuthService],
   controllers: [AuthController],
 })
