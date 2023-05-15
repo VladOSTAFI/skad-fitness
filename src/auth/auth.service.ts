@@ -11,26 +11,31 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel(User.name, 'auth') private readonly userModel: Model<User>,
-    private readonly jwtService: JwtService
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly jwtService: JwtService,
   ) {}
   async getToken({ username, password }: GetTokenDto): Promise<TokensResponse> {
     // todo: validate user and generate tokens
 
-    const hashedPassword = createHash('sha256').update(password).digest('hex')
-    const user = await this.userModel.findOne({ username, password: hashedPassword})
+    const hashedPassword = createHash('sha256').update(password).digest('hex');
+    const user = await this.userModel.findOne({
+      username,
+      password: hashedPassword,
+    });
 
-    if(!user || user.password != hashedPassword) {
-      throw new HttpException('Invalid username or password', HttpStatus.BAD_REQUEST) 
+    if (!user) {
+      throw new HttpException(
+        'Invalid username or password',
+        HttpStatus.BAD_REQUEST,
+      );
     }
-    const payload = { username: user.username, userId: user._id}
-    const accessToken = await this.jwtService.signAsync(payload)
-    const refreshToken = randomBytes(32).toString('hex')
-    
+    const payload = { username: user.username, userId: user._id };
+    const accessToken = await this.jwtService.signAsync(payload);
+    const refreshToken = randomBytes(32).toString('hex');
 
     return {
       accessToken: accessToken,
-      refreshToken: refreshToken
+      refreshToken: refreshToken,
     };
   }
 
@@ -40,7 +45,7 @@ export class AuthService {
 
       const username = verifyToken.username;
       const userId = verifyToken.userId;
-      
+
     const newAccessToken = await this.jwtService.signAsync({
       username: username,
       userId: userId

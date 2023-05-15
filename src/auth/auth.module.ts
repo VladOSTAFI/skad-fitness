@@ -11,14 +11,13 @@ import { TIME } from 'src/config';
 @Module({
   imports: [
     UserModule,
-    MongooseModule.forFeature(
-      [{ name: User.name, schema: UserSchema }],
-      'auth'),
-      JwtModule.register({
-        global: true,
-        signOptions: { expiresIn: TIME }
-    })],
-      
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    JwtModule.register({
+      global: true,
+      signOptions: { expiresIn: TIME },
+    }),
+  ],
+
   providers: [AuthService],
   controllers: [AuthController],
 })
