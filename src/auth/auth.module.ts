@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/user/schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
+import { TIME } from 'src/config';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
       'auth'),
       JwtModule.register({
         global: true,
-        signOptions: { expiresIn: '60s' }
+        signOptions: { expiresIn: TIME }
     })],
       
   providers: [AuthService],
