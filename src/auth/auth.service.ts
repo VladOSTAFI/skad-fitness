@@ -23,7 +23,7 @@ export class AuthService {
     if(!user) {
       throw new HttpException('Invalid username or password', HttpStatus.BAD_REQUEST) 
     }
-    const payload = { username: user.username, userId: user._id}
+    const payload = { username: user.username, userId: user._id }
     const accessToken = await this.jwtService.signAsync(payload)
     const refreshToken = randomBytes(32).toString('hex')
     

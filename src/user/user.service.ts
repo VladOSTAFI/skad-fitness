@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -11,10 +11,14 @@ import { createHash } from 'crypto';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async getUserData(): Promise<UserData> {
-    // todo: get user data from db
+  async getUserData(userId: string): Promise<UserData> {
+    // todo: get user data from db 
+    const user = await this.userModel.findById(userId)
+    if(!user) {
+      throw new HttpException('UserId not found', HttpStatus.BAD_REQUEST)
+    }
     return {
-      username: 'johny',
+      username: user.username
     };
   }
 
@@ -27,6 +31,6 @@ export class UserService {
       password: hashPassword,
     });
 
-    return user._id.toString();
+    return user.toString();
   }
 }

@@ -4,4 +4,4 @@ export const PORT = parseInt(process.env.PORT, 10) || 3000;
 
 export const DB_URL = process.env.DB_URL; 
 
-export const TIME = process.env.TIME;
+export const TOKEN_EXPIRATION_TIME = process.env.TOKEN_EXPIRATION_TIME;
