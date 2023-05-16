@@ -11,8 +11,8 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel(User.name, 'auth') private readonly userModel: Model<User>,
-    private readonly jwtService: JwtService
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly jwtService: JwtService,
   ) {}
   async getToken({ username, password }: GetTokenDto): Promise<TokensResponse> {
     // todo: validate user and generate tokens
@@ -30,17 +30,38 @@ export class AuthService {
 
     return {
       accessToken: accessToken,
-      refreshToken: refreshToken
+      refreshToken: refreshToken,
     };
   }
 
   async refreshToken(refreshToken: string): Promise<TokensResponse> {
     // todo: validate refresh token and generate new tokens
-    console.log(refreshToken);
+      const verifyToken = await this.jwtService.verify(refreshToken)
+
+      const username = verifyToken.username;
+      const userId = verifyToken.userId;
+
+    const newAccessToken = await this.jwtService.signAsync({
+      username: username,
+      userId: userId
+      }, {
+      secret: 'Super access secret',
+      expiresIn: '15m'
+      }
+    );
+
+    const newRefreshToker = await this.jwtService.signAsync({
+      username: username,
+      userId: userId
+    }, {
+      secret: 'Super refresh secret',
+      expiresIn: '7d'
+    });
+
 
     return {
-      accessToken: 'dummy_access_token',
-      refreshToken: 'dummy_refresh_token',
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToker,
     };
   }
 }

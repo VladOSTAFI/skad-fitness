@@ -6,14 +6,6 @@ import { UserModule } from './user/user.module';
 import { DB_URL } from './config';
 
 @Module({
-  imports: [
-    AuthModule, UserModule, MongooseModule.forRoot(DB_URL, {
-    connectionName:  'auth'
-  },
-  ),
-  MongooseModule.forRoot(DB_URL, {
-    connectionName:  'user'
-  })
-],
+  imports: [AuthModule, UserModule, MongooseModule.forRoot(DB_URL)],
 })
 export class AppModule {}
