@@ -11,9 +11,9 @@ $ npm install
 Create new file `.env` in project root directory and fill all required vars to run the app.
 
 ```bash
-PORT - port to run application
+PORT - port to run application, default 3000
 DB_URL - database url to connect
-TOKEN_EXPIRATION_TIME - token expiration date
+TOKEN_EXPIRATION_TIME - token expiration date, default 43200s
 JWT_SECRET - secret phrase for jwt encryption
 ```
 
