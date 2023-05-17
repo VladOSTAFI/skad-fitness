@@ -13,6 +13,7 @@ Create new file ```.env``` in project root directory and fill all required vars 
 ```bash
 PORT - port to run application
 DB_URL - database url to connect
+TOKEN_EXPIRATION_TIME - token expiration date 
 ```
 
 ### Running the app

@@ -6,7 +6,8 @@ import { AuthController } from './auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/user/schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
-import { TIME } from 'src/config';
+import { TOKEN_EXPIRATION_TIME } from 'src/config';
+import { JWT_CONSTANTS } from 'src/const';
 
 @Module({
   imports: [
@@ -14,9 +15,10 @@ import { TIME } from 'src/config';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     JwtModule.register({
       global: true,
-      signOptions: { expiresIn: TIME }
+      secret: JWT_CONSTANTS.secret,
+      signOptions: { expiresIn: TOKEN_EXPIRATION_TIME }
     }),
-  ],     
+  ],
 
   providers: [AuthService],
   controllers: [AuthController],
