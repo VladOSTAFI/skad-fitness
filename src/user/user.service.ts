@@ -13,9 +13,12 @@ export class UserService {
 
   async getUserData(userId: string): Promise<UserData> {
     const user = await this.userModel.findById(userId);
-    
-    if(!user) {
-      throw new HttpException('User entity is not found', HttpStatus.BAD_REQUEST);
+
+    if (!user) {
+      throw new HttpException(
+        'User entity is not found',
+        HttpStatus.BAD_REQUEST,
+      );
     }
     return {
       username: user.username,
