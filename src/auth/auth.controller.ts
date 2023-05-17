@@ -10,7 +10,6 @@ export class AuthController {
 
   @Post('token')
   getToken(@Body() getTokenArgs: GetTokenDto): Promise<TokensResponse> {
-    return this.authService
-      .getToken(getTokenArgs);
+    return this.authService.getToken(getTokenArgs);
   }
 }
