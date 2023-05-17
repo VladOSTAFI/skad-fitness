@@ -21,47 +21,16 @@ export class AuthService {
     const user = await this.userModel.findOne({ username, password: hashedPassword})
 
     if(!user) {
-      throw new HttpException('Invalid username or password', HttpStatus.BAD_REQUEST) 
+      throw new HttpException('Invalid username or password', HttpStatus.BAD_REQUEST)
     }
     const payload = { username: user.username, userId: user._id}
     const accessToken = await this.jwtService.signAsync(payload)
     const refreshToken = randomBytes(32).toString('hex')
-    
+
 
     return {
       accessToken: accessToken,
       refreshToken: refreshToken,
-    };
-  }
-
-  async refreshToken(refreshToken: string): Promise<TokensResponse> {
-    // todo: validate refresh token and generate new tokens
-      const verifyToken = await this.jwtService.verify(refreshToken)
-
-      const username = verifyToken.username;
-      const userId = verifyToken.userId;
-
-    const newAccessToken = await this.jwtService.signAsync({
-      username: username,
-      userId: userId
-      }, {
-      secret: 'Super access secret',
-      expiresIn: '15m'
-      }
-    );
-
-    const newRefreshToker = await this.jwtService.signAsync({
-      username: username,
-      userId: userId
-    }, {
-      secret: 'Super refresh secret',
-      expiresIn: '7d'
-    });
-
-
-    return {
-      accessToken: newAccessToken,
-      refreshToken: newRefreshToker,
     };
   }
 }
