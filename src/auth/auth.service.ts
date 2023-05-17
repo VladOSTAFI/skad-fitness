@@ -15,49 +15,60 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
   async getToken({ username, password }: GetTokenDto): Promise<TokensResponse> {
-
     const hashedPassword = createHash('sha256').update(password).digest('hex');
-    const user = await this.userModel.findOne({ username, password: hashedPassword});
+    const user = await this.userModel.findOne({
+      username,
+      password: hashedPassword,
+    });
 
-    if(!user) {
-      throw new HttpException('Invalid username or password', HttpStatus.BAD_REQUEST);
-    };
+    if (!user) {
+      throw new HttpException(
+        'Invalid username or password',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const payload = { username: user.username, userId: user._id };
     const accessToken = await this.jwtService.signAsync(payload);
     const refreshToken = randomBytes(32).toString('hex');
-    
+
     return {
       accessToken: accessToken,
       refreshToken: refreshToken,
     };
-  };
+  }
 
   async refreshToken(refreshToken: string): Promise<TokensResponse> {
-      const verifyToken = await this.jwtService.verify(refreshToken);
+    const verifyToken = await this.jwtService.verify(refreshToken);
 
-      const username = verifyToken.username;
-      const userId = verifyToken.userId;
+    const username = verifyToken.username;
+    const userId = verifyToken.userId;
 
-    const newAccessToken = await this.jwtService.signAsync({
-      username: username,
-      userId: userId,
-      }, {
-      secret: 'Super access secret',
-      expiresIn: '15m',
-      }
+    const newAccessToken = await this.jwtService.signAsync(
+      {
+        username: username,
+        userId: userId,
+      },
+      {
+        secret: 'Super access secret',
+        expiresIn: '15m',
+      },
     );
 
-    const newRefreshToker = await this.jwtService.signAsync({
-      username: username,
-      userId: userId,
-    }, {
-      secret: 'Super refresh secret',
-      expiresIn: '7d',
-    });
+    const newRefreshToker = await this.jwtService.signAsync(
+      {
+        username: username,
+        userId: userId,
+      },
+      {
+        secret: 'Super refresh secret',
+        expiresIn: '7d',
+      },
+    );
 
     return {
       accessToken: newAccessToken,
       refreshToken: newRefreshToker,
     };
-  };
-};
+  }
+}
