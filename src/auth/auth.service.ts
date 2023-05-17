@@ -15,17 +15,23 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
   async getToken({ username, password }: GetTokenDto): Promise<TokensResponse> {
-
     const hashedPassword = createHash('sha256').update(password).digest('hex');
-    const user = await this.userModel.findOne({ username, password: hashedPassword});
+    const user = await this.userModel.findOne({
+      username,
+      password: hashedPassword,
+    });
 
-    if(!user) {
-      throw new HttpException('Invalid username or password', HttpStatus.BAD_REQUEST);
-    };
+    if (!user) {
+      throw new HttpException(
+        'Invalid username or password',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const payload = { username: user.username, userId: user._id };
     const accessToken = await this.jwtService.signAsync(payload);
     const refreshToken = randomBytes(32).toString('hex');
-    
+
     return {
       accessToken: accessToken,
       refreshToken: refreshToken,
