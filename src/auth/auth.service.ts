@@ -36,5 +36,5 @@ export class AuthService {
       accessToken: accessToken,
       refreshToken: refreshToken,
     };
-  };
-};
+  }
+}

@@ -13,7 +13,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   getUserData(@Req() req: any): Promise<UserData> {
     const userId = req.user.userId;
-    
+
     return this.userService.getUserData(userId);
   }
 
