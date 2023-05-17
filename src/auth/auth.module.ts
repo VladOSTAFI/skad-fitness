@@ -7,7 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/user/schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { TOKEN_EXPIRATION_TIME } from 'src/config';
-import { jwtConstants } from './constants';
+import { jwtCONSTANTS } from 'src/const';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { jwtConstants } from './constants';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     JwtModule.register({
       global: true,
-      secret: jwtConstants.secret,
+      secret: jwtCONSTANTS.secret,
       signOptions: { expiresIn: TOKEN_EXPIRATION_TIME }
     }),
   ],     

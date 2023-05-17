@@ -12,18 +12,17 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async getUserData(userId: string): Promise<UserData> {
-    // todo: get user data from db 
-    const user = await this.userModel.findById(userId)
+    const user = await this.userModel.findById(userId);
+    
     if(!user) {
-      throw new HttpException('UserId not found', HttpStatus.BAD_REQUEST)
+      throw new HttpException('User entity is not found', HttpStatus.BAD_REQUEST);
     }
     return {
-      username: user.username
+      username: user.username,
     };
   }
 
   async createUser({ username, password }: CreateUserDto): Promise<string> {
-    // todo: hash user password
     const hashPassword = createHash('sha256').update(password).digest('hex');
 
     const user = await this.userModel.create({
