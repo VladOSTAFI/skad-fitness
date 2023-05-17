@@ -14,6 +14,7 @@ Create new file `.env` in project root directory and fill all required vars to r
 PORT - port to run application
 DB_URL - database url to connect
 TOKEN_EXPIRATION_TIME - token expiration date
+JWT_SECRET - secret phrase for jwt encryption
 ```
 
 ### Running the app
