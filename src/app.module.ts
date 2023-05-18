@@ -7,6 +7,11 @@ import { DB_URL } from './config';
 import { TrainingModule } from './training/training.module';
 
 @Module({
-  imports: [AuthModule, UserModule, TrainingModule, MongooseModule.forRoot(DB_URL)],
+  imports: [
+    AuthModule,
+    UserModule,
+    TrainingModule,
+    MongooseModule.forRoot(DB_URL),
+  ],
 })
 export class AppModule {}
