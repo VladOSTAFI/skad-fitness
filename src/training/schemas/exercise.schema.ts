@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose from "mongoose";
+import mongoose, { HydratedDocument } from "mongoose";
 import { Training } from "./training.schema";
+
+export type TrainingDocument = HydratedDocument<Exercise>
 
 @Schema()
 export class Exercise{
