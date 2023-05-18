@@ -9,10 +9,10 @@ export class Training {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User'})
     user: User;
 
-    @Prop({ type: Date, default: Date.now})
+    @Prop({ type: Date })
     date: number;
 
-    @Prop({ type: Date })
+    @Prop({ type: Date, default: Date.now })
     createAt: Date
 }
 
